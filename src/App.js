@@ -1,11 +1,12 @@
 import axios from 'axios'
 //import './App.css';
 
-const baseURL = "http://localhost:3001/"
+//const baseURL = "http://localhost:3001/"
+const domainURL = "http://www.dirtyowlbear.com/"
 
 const getData = async () => {
   try {
-    return await axios.get(baseURL + "api/data")
+    return await axios.get(domainURL + "api/data")
   } catch (error) {
     console.error(error)
   }
