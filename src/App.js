@@ -1,8 +1,8 @@
 import axios from 'axios'
 //import './App.css';
 
-//const baseURL = "http://localhost:3001/"
-const prodURL = "http://www.dirtyowlbear.com/"
+const baseURL = "http://localhost:3001/"
+//const prodURL = "http://www.dirtyowlbear.com/"
 
 const headers = {
   'Content-Type': 'application/json',
@@ -11,7 +11,7 @@ const headers = {
 
 const getData = async () => {
   try {
-    return await axios.get(prodURL + "api/data", headers)
+    return await axios.get(baseURL + "api/data", headers)
   } catch (error) {
     console.error(error)
   }
