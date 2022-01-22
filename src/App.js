@@ -3,9 +3,14 @@ import axios from 'axios'
 
 const baseURL = "http://localhost:3001/"
 
+const headers = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': 'true'
+}
+
 const getData = async () => {
   try {
-    return await axios.get(baseURL + "api/data")
+    return await axios.get(baseURL + "api/data", headers)
   } catch (error) {
     console.error(error)
   }
