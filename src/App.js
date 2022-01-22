@@ -1,9 +1,11 @@
 import axios from 'axios'
 //import './App.css';
 
+const baseURL = "http://localhost:3001/"
+
 const getData = async () => {
   try {
-    return await axios.get('http://localhost:3001/api/data')
+    return await axios.get(baseURL + "api/data")
   } catch (error) {
     console.error(error)
   }
@@ -13,6 +15,7 @@ const handleDataClick = (event) => {
   event.preventDefault()
   getData().then(response => {
       console.log("Data Retrieved")
+      console.log(response.status)
       console.log(response.data)
     }
   )
