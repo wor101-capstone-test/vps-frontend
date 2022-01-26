@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 
 //import './App.css';
 
-const baseURL = "http://localhost:3001/"
-//const domainURL = "http://www.dirtyowlbear.com/"
+//const baseURL = "http://localhost:3001/"
+const baseURL = "http://www.dirtyowlbear.com/"
 
 const getData = async () => {
   try {
