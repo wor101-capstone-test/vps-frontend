@@ -1,10 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 
-//import './App.css';
-
-const baseURL = "http://localhost:3001/"
-//const baseURL = "https://www.dirtyowlbear.com/"
+const baseURL = process.env.REACT_APP_PROD_URL
 
 const getData = async () => {
   try {
