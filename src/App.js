@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 
 //import './App.css';
 
-//const baseURL = "http://localhost:3001/"
-const baseURL = "https://www.dirtyowlbear.com/"
+const baseURL = "http://localhost:3001/"
+//const baseURL = "https://www.dirtyowlbear.com/"
 
 const getData = async () => {
   try {
@@ -15,22 +15,24 @@ const getData = async () => {
 }
 
 
-const SnackForm = ({snacks, setSnacks, getSnacks}) => {
+const SnackForm = ({snacks, setSnacks}) => {
   const addSnack = (event) => {
     event.preventDefault()
     const snackName = event.target.name.value
     if (snackName === '') {
       window.alert("Must include name for tasty snack!")
     } else {
-      try {
-        axios.post(baseURL + 'api/data/snack', {
-          name: snackName,
-        })
-        event.target.name.value = ''
-        window.alert(`Tasty snack named '${snackName}' added to the treats!`)    
-      } catch (error) {
-        console.error(error)
+      const sendSnack = async () => {
+        try {
+          await axios.post(baseURL + 'api/data/snack', { name: snackName, })
+          const updatedSnacks = await axios.get(baseURL + "api/data")
+          setSnacks(updatedSnacks.data)
+          window.alert(`Tasty snack named '${snackName}' added to the treats!`) 
+        } catch (err) {
+          console.error(err)
+        }
       }
+      sendSnack()
     }  
   }
   return (
