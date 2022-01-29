@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 
 const baseURL = process.env.REACT_APP_PROD_URL
+//const baseURL = process.env.REACT_APP_DEV_URL
 
 const getData = async () => {
   try {
@@ -41,17 +42,20 @@ const SnackForm = ({snacks, setSnacks}) => {
   )
 }
 
-const Snacks = ({snacks, setSnacks}) => {
+const Snacks = ({snacks, setSnacks, scallets, setScallets}) => {
   const feedOwlbear = (event) => {
     event.preventDefault()
     const snackId = event.target.snackId.value
     const snackName = event.target.snackName.value
+    const snack = snacks.find(snack => snack.id === parseInt(snackId, 10))
+    console.log('snack: ', snack)
     try {
-      axios.delete(baseURL + `api/data/snack/${snackId}`).then(response => {
+      axios.delete(baseURL + `api/data/snack/${snackId}`, {data: snack}).then(response => {
         console.log(response)
         console.log(typeof snackId)
         console.log(typeof snacks[0].id)
         setSnacks(snacks.filter(snack => snack.id !== parseInt(snackId, 10)))
+        setScallets([snack, ...scallets])
         window.alert(`Yum yum! '${snackName} was tasty snack!`)
       })
     } catch (error) {
@@ -75,8 +79,8 @@ const Snacks = ({snacks, setSnacks}) => {
 
 function App() {
   const [snacks, setSnacks] = useState([])
-  //const [alert, setAlert] = useState('')
-
+  const [scallets, setScallets] = useState([])
+  
   const getSnacks = (event) => {
     event.preventDefault()
     getData().then(response => {
@@ -88,14 +92,39 @@ function App() {
     )
   }
 
+  const dropScallet = (event) => {
+    event.preventDefault()
+    console.log('scallets: ', scallets)
+    console.log('Preparing to send scallet drop request')
+    console.log(scallets.length)
+    if (scallets.length > 0) {
+      axios
+      .delete(baseURL + 'api/data/bowels', {data: scallets[-1]})
+      .then(res => {
+        const scallet = scallets[scallets.length - 1]
+        window.alert(`One scallet of mostly digested ${scallet.name} left behind`)
+        setScallets(scallets.slice(0,scallets.length - 1))
+        console.log('New scallets:', scallets)
+      })
+      .catch(err => {
+        console.error('Error adding to bowels', err)
+      })
+    } else {
+      window.alert('Stomach empty! Need snacks!!')
+    }
+
+  }
+
 
   return (
     <div>
       <h1>I am Owlbear. Feed me!</h1>
       <img alt="Owlbear" src="owlbear.jpg"/><br/>
       <button onClick={getSnacks}>Get Snacks</button>
-      <Snacks snacks={snacks} setSnacks={setSnacks} />
-      <SnackForm snacks={snacks} setSnacks={setSnacks} getSnacks={getSnacks} />
+      <Snacks snacks={snacks} setSnacks={setSnacks}  scallets={scallets} setScallets={setScallets}/>
+      <SnackForm snacks={snacks} setSnacks={setSnacks} getSnacks={getSnacks}/>
+      <button onClick={dropScallet}>Drop a scallet</button>
+      <p>One scallet of a mostly digested</p>
     </div>
   );
 }
