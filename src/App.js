@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const baseURL = process.env.REACT_APP_PROD_URL
 //const baseURL = process.env.REACT_APP_DEV_URL
@@ -91,6 +91,17 @@ function App() {
       }
     )
   }
+
+  // set scallets on loading page
+  useEffect(() => {
+    console.log('Effect triggered')
+    axios
+      .get(baseURL + 'api/data/bowels')
+      .then(response => {
+        setScallets(response.data)
+      })
+      .catch(error => console.error(error))
+  }, [])
 
   const dropScallet = (event) => {
     event.preventDefault()
